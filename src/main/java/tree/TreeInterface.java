@@ -1,4 +1,4 @@
 package tree;
 
-public class TreeInterface {
+public interface TreeInterface {
 }

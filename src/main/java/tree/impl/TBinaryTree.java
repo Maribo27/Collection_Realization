@@ -1,4 +1,6 @@
 package tree.impl;
 
-public class TBinaryTree {
+import tree.TreeInterface;
+
+public class TBinaryTree implements TreeInterface {
 }
