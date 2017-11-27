@@ -23,4 +23,7 @@ public interface ListInterface {
 	int size();
 
 	void clear();
+
+	boolean equals(ListInterface listInterface);
+
 }

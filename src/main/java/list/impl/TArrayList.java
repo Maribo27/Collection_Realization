@@ -2,11 +2,11 @@ package list.impl;
 
 import list.ListInterface;
 
+import java.util.Arrays;
+
+import static list.ListConstants.*;
+
 public class TArrayList implements ListInterface{
-	private static final String INCORRECT_INDEX = "Error: incorrect index!";
-	private static final String ELEMENT_NOT_FOUND = "Error: element not found!";
-	private static final String BIG_INDEX = "Error: index is bigger than array size!";
-	private static final String TOO_MUCH_TO_DELETE = "Error: count of element to remove is bigger than array size!";
 	private Object[] array;
 	private int position = 0;
 	private int size = 0;
@@ -101,7 +101,7 @@ public class TArrayList implements ListInterface{
 	}
 
 	public void remove(int index, int size) {
-		if (index + size > this.size || index < 0){
+		if (size > this.size || index < 0 || size < 1){
 			System.out.println(TOO_MUCH_TO_DELETE);
 			return;
 		}
@@ -130,5 +130,17 @@ public class TArrayList implements ListInterface{
 		}
 		position = 0;
 		ensureCapacity(position);
+	}
+
+	@Override
+	public boolean equals(ListInterface listInterface){
+		if (this == listInterface) return true;
+		if (listInterface == null || getClass() != listInterface.getClass()) return false;
+
+		TArrayList list = (TArrayList) listInterface;
+
+		if (position != list.position) return false;
+		if (size != list.size) return false;
+		return Arrays.equals(array, list.array);
 	}
 }
