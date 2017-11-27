@@ -1,6 +1,7 @@
 package list.impl;
 
 import list.ListInterface;
+import list.TListIterator;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -29,6 +30,7 @@ public class TLinkedListTest {
 	public void size() throws Exception {
 		Object[] elems = {1,3,5};
 		ListInterface list = new TLinkedList(elems);
+
 		int expected = 3;
 		int actual = list.size();
 		assertSame(expected, actual);

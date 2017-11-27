@@ -1,6 +1,7 @@
 package list.impl;
 
 import list.ListInterface;
+import list.TListIterator;
 
 import static list.ListConstants.ELEMENT_NOT_FOUND;
 import static list.ListConstants.INCORRECT_INDEX;
@@ -30,6 +31,11 @@ public class TLinkedList implements ListInterface {
 
 	public TLinkedList(Object[] elements){
 		addAll(elements);
+	}
+
+	@Override
+	public TListIterator iterator() {
+		return new LinkedTListIterator(this);
 	}
 
 	@Override
@@ -181,5 +187,40 @@ public class TLinkedList implements ListInterface {
 		if (size != that.size) return false;
 		if (head != null ? !head.equals(that.head) : that.head != null) return false;
 		return tail != null ? tail.equals(that.tail) : that.tail == null;
+	}
+
+	private class LinkedTListIterator implements TListIterator {
+		private int current = 0;
+		private TLinkedList list;
+
+		LinkedTListIterator(TLinkedList list) {
+			this.list = list;
+		}
+
+		@Override
+		public boolean hasNext() {
+			return list.size > current;
+		}
+
+		@Override
+		public Object next() {
+			if (hasNext()) {
+				return list.get(current++);
+			}
+			return null;
+		}
+
+		@Override
+		public boolean hasPrev() {
+			return current > 0;
+		}
+
+		@Override
+		public Object prev() {
+			if (hasPrev()) {
+				return list.get(current--);
+			}
+			return null;
+		}
 	}
 }

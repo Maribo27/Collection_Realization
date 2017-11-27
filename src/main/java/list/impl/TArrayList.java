@@ -1,6 +1,7 @@
 package list.impl;
 
 import list.ListInterface;
+import list.TListIterator;
 
 import java.util.Arrays;
 
@@ -23,6 +24,11 @@ public class TArrayList implements ListInterface{
 
 	public TArrayList(){
 		array = new Object[0];
+	}
+
+	@Override
+	public TListIterator iterator() {
+		return new ArrayTListIterator(this);
 	}
 
 	public boolean isEmpty(){
@@ -142,5 +148,40 @@ public class TArrayList implements ListInterface{
 		if (position != list.position) return false;
 		if (size != list.size) return false;
 		return Arrays.equals(array, list.array);
+	}
+
+	private class ArrayTListIterator implements TListIterator {
+		private int current = 0;
+		private TArrayList list;
+
+		ArrayTListIterator(TArrayList list) {
+			this.list = list;
+		}
+
+		@Override
+		public boolean hasNext() {
+			return list.size > current;
+		}
+
+		@Override
+		public Object next() {
+			if (hasNext()) {
+				return list.get(current++);
+			}
+			return null;
+		}
+
+		@Override
+		public boolean hasPrev() {
+			return current > 0;
+		}
+
+		@Override
+		public Object prev() {
+			if (hasPrev()) {
+				return list.get(current--);
+			}
+			return null;
+		}
 	}
 }

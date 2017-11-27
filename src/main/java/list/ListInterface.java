@@ -2,6 +2,8 @@ package list;
 
 public interface ListInterface {
 
+	TListIterator iterator();
+
 	boolean isEmpty();
 
 	void add(Object element);
