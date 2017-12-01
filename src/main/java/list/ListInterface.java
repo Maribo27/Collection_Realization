@@ -4,7 +4,17 @@ public interface ListInterface {
 
 	TListIterator iterator();
 
+	Object get(int index);
+
+	ListInterface subList(int begin, int end);
+
+	Object[] toArray();
+
 	boolean isEmpty();
+
+	boolean equals(ListInterface listInterface);
+
+	int size();
 
 	void add(Object element);
 
@@ -14,18 +24,11 @@ public interface ListInterface {
 
 	void addAll(Object[] elements);
 
-	Object get(int index);
-
 	void set(int index, Object element);
 
 	void remove(int index);
 
 	void remove(int index, int size);
 
-	int size();
-
 	void clear();
-
-	boolean equals(ListInterface listInterface);
-
 }

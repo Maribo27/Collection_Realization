@@ -3,10 +3,12 @@ package list.impl;
 import list.ListInterface;
 import list.TListIterator;
 
+import java.io.Serializable;
+
 import static list.ListConstants.ELEMENT_NOT_FOUND;
 import static list.ListConstants.INCORRECT_INDEX;
 
-public class TLinkedList implements ListInterface {
+public class TLinkedList implements ListInterface, Serializable {
 
 	private ListElement head;
 	private ListElement tail;
@@ -27,6 +29,11 @@ public class TLinkedList implements ListInterface {
 	public TLinkedList(){
 		head = tail = null;
 		size = 0;
+	}
+
+	public TLinkedList(Object element){
+		size = 0;
+		add(element);
 	}
 
 	public TLinkedList(Object[] elements){
@@ -109,6 +116,25 @@ public class TLinkedList implements ListInterface {
 	}
 
 	@Override
+	public TLinkedList subList(int begin, int end) {
+		if (begin < 0 || end > size || end < begin){
+			System.out.println(ELEMENT_NOT_FOUND);
+			return null;
+		}
+		if (begin == end){
+			Object element = get(begin);
+			return new TLinkedList(element);
+		}
+
+		TLinkedList linkedList = new TLinkedList();
+		for (int index = begin; index <= end; index++){
+			Object element = get(index);
+			linkedList.add(element);
+		}
+		return linkedList;
+	}
+
+	@Override
 	public void set(int index, Object element) {
 		if (index >= size || index < 0){
 			System.out.println(ELEMENT_NOT_FOUND);
@@ -178,6 +204,15 @@ public class TLinkedList implements ListInterface {
 	}
 
 	@Override
+	public Object[] toArray(){
+		Object [] array = new Object[size];
+		for (int index = 0; index < size; index++){
+			array[index] = get(index);
+		}
+		return array;
+	}
+
+	@Override
 	public boolean equals(ListInterface listInterface) {
 		if (this == listInterface) return true;
 		if (listInterface == null || getClass() != listInterface.getClass()) return false;
@@ -185,8 +220,11 @@ public class TLinkedList implements ListInterface {
 		TLinkedList that = (TLinkedList) listInterface;
 
 		if (size != that.size) return false;
-		if (head != null ? !head.equals(that.head) : that.head != null) return false;
-		return tail != null ? tail.equals(that.tail) : that.tail == null;
+		if (size == 0) return true;
+		for (int index = 0; index < size; index++){
+			if (that.get(index) != this.get(index)) return false;
+		}
+		return true;
 	}
 
 	private class LinkedTListIterator implements TListIterator {
