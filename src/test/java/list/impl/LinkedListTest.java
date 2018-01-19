@@ -7,55 +7,55 @@ import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
-public class TLinkedListTest {
+public class LinkedListTest {
 	@Test
-	public void subList() throws Exception {
+	public void subList() {
 		Object[] elements = {1,3,5,7,8};
 		Object[] subListElements = {3,5,7};
-		ListInterface list = new TLinkedList(elements);
-		ListInterface expected = new TLinkedList(subListElements);
+		ListInterface list = new LinkedList(elements);
+		ListInterface expected = new LinkedList(subListElements);
 		ListInterface actual = list.subList(1,3);
 		assertTrue (expected.equals(actual));
 	}
 
 	@Test
-	public void toArray() throws Exception {
+	public void toArray() {
 		Object[] expected = {1,3,4};
-		ListInterface list = new TLinkedList(expected);
+		ListInterface list = new LinkedList(expected);
 		Object[] actual = list.toArray();
 		assertTrue(Arrays.equals(expected, actual));
 	}
 
 	@Test
-	public void isNotEmpty() throws Exception {
+	public void isNotEmpty() {
 		Object[] elements = {1,3,5};
-		ListInterface list = new TLinkedList(elements);
+		ListInterface list = new LinkedList(elements);
 		boolean expected = false;
 		boolean actual = list.isEmpty();
 		assertTrue (expected == actual);
 	}
 
 	@Test
-	public void isEmpty() throws Exception {
-		ListInterface list = new TLinkedList();
+	public void isEmpty() {
+		ListInterface list = new LinkedList();
 		boolean expected = true;
 		boolean actual = list.isEmpty();
 		assertTrue (expected == actual);
 	}
 
 	@Test
-	public void get() throws Exception {
+	public void get() {
 		Object[] elements = {1,3,5};
-		ListInterface list = new TLinkedList(elements);
+		ListInterface list = new LinkedList(elements);
 		Object expected = 1;
 		Object actual = list.get(0);
 		assertEquals(expected, actual);
 	}
 
 	@Test
-	public void size() throws Exception {
+	public void size() {
 		Object[] elements = {1,3,5};
-		ListInterface list = new TLinkedList(elements);
+		ListInterface list = new LinkedList(elements);
 
 		int expected = 3;
 		int actual = list.size();
@@ -63,31 +63,31 @@ public class TLinkedListTest {
 	}
 
 	@Test
-	public void notEquals() throws Exception {
+	public void notEquals() {
 		Object[] elements = {1,3,5};
-		ListInterface list = new TLinkedList(elements);
+		ListInterface list = new LinkedList(elements);
 		Object[] another = {1,2};
-		TLinkedList newList = new TLinkedList(another);
+		LinkedList newList = new LinkedList(another);
 		boolean expected = false;
 		boolean actual = list.equals(newList);
 		assertTrue(expected == actual);
 	}
 
 	@Test
-	public void equals() throws Exception {
+	public void equals() {
 		Object[] elements = {1,3,5};
-		ListInterface list = new TLinkedList(elements);
+		ListInterface list = new LinkedList(elements);
 		Object[] another = {1,3,5};
-		TLinkedList newList = new TLinkedList(another);
+		LinkedList newList = new LinkedList(another);
 		boolean expected = true;
 		boolean actual = list.equals(newList);
 		assertTrue(expected == actual);
 	}
 
 	@Test
-	public void addToEnd() throws Exception {
+	public void addToEnd() {
 		Object[] elements = {1,3,4};
-		ListInterface list = new TLinkedList(elements);
+		ListInterface list = new LinkedList(elements);
 		list.add(5);
 		Object expected = 5;
 		Object actual = list.get(3);
@@ -95,9 +95,9 @@ public class TLinkedListTest {
 	}
 
 	@Test
-	public void addToIndex() throws Exception {
+	public void addToIndex() {
 		Object[] elements = {1,3,5};
-		ListInterface list = new TLinkedList(elements);
+		ListInterface list = new LinkedList(elements);
 		list.add(0,5);
 		Object expected = 5;
 		Object actual = list.get(0);
@@ -105,9 +105,9 @@ public class TLinkedListTest {
 	}
 
 	@Test
-	public void addAllToEnd() throws Exception {
+	public void addAllToEnd() {
 		Object[] elements = {1,3,5};
-		ListInterface list = new TLinkedList(elements);
+		ListInterface list = new LinkedList(elements);
 		Object [] toAdd = {8,9};
 		list.addAll(toAdd);
 		Object expected = 8;
@@ -116,9 +116,9 @@ public class TLinkedListTest {
 	}
 
 	@Test
-	public void addAllToIndex() throws Exception {
+	public void addAllToIndex() {
 		Object[] elements = {1,3,5};
-		ListInterface list = new TLinkedList(elements);
+		ListInterface list = new LinkedList(elements);
 		Object [] toAdd = {8,9};
 		list.addAll(1, toAdd);
 		Object expected = 9;
@@ -127,9 +127,9 @@ public class TLinkedListTest {
 	}
 
 	@Test
-	public void set() throws Exception {
+	public void set() {
 		Object[] elements = {1,3,5};
-		ListInterface list = new TLinkedList(elements);
+		ListInterface list = new LinkedList(elements);
 		list.set(2,9);
 		Object expected = 9;
 		Object actual = list.get(2);
@@ -137,9 +137,9 @@ public class TLinkedListTest {
 	}
 
 	@Test
-	public void removeOneElement() throws Exception {
+	public void removeOneElement() {
 		Object[] elements = {1,3,5};
-		ListInterface list = new TLinkedList(elements);
+		ListInterface list = new LinkedList(elements);
 		list.remove(2);
 		int expected = 2;
 		int actual = list.size();
@@ -147,9 +147,9 @@ public class TLinkedListTest {
 	}
 
 	@Test
-	public void removeBlock() throws Exception {
+	public void removeBlock() {
 		Object[] elements = {1,3,5};
-		ListInterface list = new TLinkedList(elements);
+		ListInterface list = new LinkedList(elements);
 		list.remove(1,2);
 		int expected = 1;
 		int actual = list.size();
@@ -157,9 +157,9 @@ public class TLinkedListTest {
 	}
 
 	@Test
-	public void clear() throws Exception {
+	public void clear() {
 		Object[] elements = {1,3,5};
-		ListInterface list = new TLinkedList(elements);
+		ListInterface list = new LinkedList(elements);
 		list.clear();
 		int expected = 0;
 		int actual = list.size();

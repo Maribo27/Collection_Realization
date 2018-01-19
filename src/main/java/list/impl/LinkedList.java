@@ -1,14 +1,15 @@
 package list.impl;
 
 import list.ListInterface;
-import list.TListIterator;
+import list.ListIterator;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import static list.ListConstants.ELEMENT_NOT_FOUND;
 import static list.ListConstants.INCORRECT_INDEX;
 
-public class TLinkedList implements ListInterface, Serializable {
+public class LinkedList implements ListInterface, Serializable {
 
 	private ListElement head;
 	private ListElement tail;
@@ -26,23 +27,23 @@ public class TLinkedList implements ListInterface, Serializable {
 		}
 	}
 
-	public TLinkedList(){
+	public LinkedList(){
 		head = tail = null;
 		size = 0;
 	}
 
-	public TLinkedList(Object element){
+	public LinkedList(Object element){
 		size = 0;
 		add(element);
 	}
 
-	public TLinkedList(Object[] elements){
+	public LinkedList(Object[] elements){
 		addAll(elements);
 	}
 
 	@Override
-	public TListIterator iterator() {
-		return new LinkedTListIterator(this);
+	public ListIterator iterator() {
+		return new LinkedListIterator(this);
 	}
 
 	@Override
@@ -116,17 +117,17 @@ public class TLinkedList implements ListInterface, Serializable {
 	}
 
 	@Override
-	public TLinkedList subList(int begin, int end) {
+	public LinkedList subList(int begin, int end) {
 		if (begin < 0 || end > size || end < begin){
 			System.out.println(ELEMENT_NOT_FOUND);
 			return null;
 		}
 		if (begin == end){
 			Object element = get(begin);
-			return new TLinkedList(element);
+			return new LinkedList(element);
 		}
 
-		TLinkedList linkedList = new TLinkedList();
+		LinkedList linkedList = new LinkedList();
 		for (int index = begin; index <= end; index++){
 			Object element = get(index);
 			linkedList.add(element);
@@ -200,7 +201,7 @@ public class TLinkedList implements ListInterface, Serializable {
 	@Override
 	public void clear() {
 		remove(0, size);
-		new TLinkedList();
+		new LinkedList();
 	}
 
 	@Override
@@ -217,21 +218,25 @@ public class TLinkedList implements ListInterface, Serializable {
 		if (this == listInterface) return true;
 		if (listInterface == null || getClass() != listInterface.getClass()) return false;
 
-		TLinkedList that = (TLinkedList) listInterface;
+		LinkedList that = (LinkedList) listInterface;
 
 		if (size != that.size) return false;
-		if (size == 0) return true;
 		for (int index = 0; index < size; index++){
 			if (that.get(index) != this.get(index)) return false;
 		}
 		return true;
 	}
 
-	private class LinkedTListIterator implements TListIterator {
-		private int current = 0;
-		private TLinkedList list;
+	@Override
+	public int hashCode() {
+		return Objects.hash(head, tail, size);
+	}
 
-		LinkedTListIterator(TLinkedList list) {
+	private class LinkedListIterator implements ListIterator {
+		private int current = 0;
+		private LinkedList list;
+
+		LinkedListIterator(LinkedList list) {
 			this.list = list;
 		}
 

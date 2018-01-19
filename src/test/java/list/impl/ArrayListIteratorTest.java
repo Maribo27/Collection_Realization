@@ -1,19 +1,24 @@
 package list.impl;
 
-import list.TListIterator;
+import list.ListIterator;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
-public class LinkedTListIteratorTest {
+public class ArrayListIteratorTest {
 	@Test
-	public void hasNext() throws Exception {
+	public void hasNext() {
 		Object[] elements = {1,3,5};
-		TLinkedList list = new TLinkedList(elements);
-		TListIterator listIterator = list.iterator();
+		ArrayList list = new ArrayList(elements);
+		ListIterator listIterator = list.iterator();
 		int iterator = 0;
 		boolean expected = true;
 		boolean actual = true;
+		actual = isActual(elements, listIterator, iterator, actual);
+		assertTrue (expected == actual);
+	}
+
+	static boolean isActual(Object[] elements, ListIterator listIterator, int iterator, boolean actual) {
 		while (listIterator.hasNext()){
 			Object currentActual = listIterator.next();
 			Object currentExpected = elements[iterator++];
@@ -21,14 +26,14 @@ public class LinkedTListIteratorTest {
 				actual = false;
 			}
 		}
-		assertTrue (expected == actual);
+		return actual;
 	}
-	
+
 	@Test
-	public void next() throws Exception {
+	public void next() {
 		Object[] elements = {1,3,5};
-		TLinkedList list = new TLinkedList(elements);
-		TListIterator listIterator = list.iterator();
+		ArrayList list = new ArrayList(elements);
+		ListIterator listIterator = list.iterator();
 		int iterator = 0;
 		boolean expected = true;
 		boolean actual = true;
@@ -41,13 +46,18 @@ public class LinkedTListIteratorTest {
 	}
 
 	@Test
-	public void hasPrev() throws Exception {
+	public void hasPrev() {
 		Object[] elements = {1,3,5};
-		TLinkedList list = new TLinkedList(elements);
-		TListIterator listIterator = list.iterator();
+		ArrayList list = new ArrayList(elements);
+		ListIterator listIterator = list.iterator();
 		int iterator = 2;
 		boolean expected = true;
 		boolean actual = true;
+		actual = findPrev(elements, listIterator, iterator, actual);
+		assertTrue (expected == actual);
+	}
+
+	static boolean findPrev(Object[] elements, ListIterator listIterator, int iterator, boolean actual) {
 		while (listIterator.hasPrev()){
 			Object currentActual = listIterator.prev();
 			Object currentExpected = elements[iterator--];
@@ -55,14 +65,14 @@ public class LinkedTListIteratorTest {
 				actual = false;
 			}
 		}
-		assertTrue (expected == actual);
+		return actual;
 	}
 
 	@Test
-	public void prev() throws Exception {
+	public void prev() {
 		Object[] elements = {1,3,5};
-		TLinkedList list = new TLinkedList(elements);
-		TListIterator listIterator = list.iterator();
+		ArrayList list = new ArrayList(elements);
+		ListIterator listIterator = list.iterator();
 		int iterator = 2;
 		boolean expected = true;
 		boolean actual = true;

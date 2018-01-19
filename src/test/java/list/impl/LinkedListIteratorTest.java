@@ -1,34 +1,28 @@
 package list.impl;
 
-import list.TListIterator;
+import list.ListIterator;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
-public class ArrayTListIteratorTest {
+public class LinkedListIteratorTest {
 	@Test
-	public void hasNext() throws Exception {
+	public void hasNext() {
 		Object[] elements = {1,3,5};
-		TArrayList list = new TArrayList(elements);
-		TListIterator listIterator = list.iterator();
+		LinkedList list = new LinkedList(elements);
+		ListIterator listIterator = list.iterator();
 		int iterator = 0;
 		boolean expected = true;
 		boolean actual = true;
-		while (listIterator.hasNext()){
-			Object currentActual = listIterator.next();
-			Object currentExpected = elements[iterator++];
-			if (!currentActual.equals(currentExpected)){
-				actual = false;
-			}
-		}
+		actual = ArrayListIteratorTest.isActual(elements, listIterator, iterator, actual);
 		assertTrue (expected == actual);
 	}
-
+	
 	@Test
-	public void next() throws Exception {
+	public void next() {
 		Object[] elements = {1,3,5};
-		TArrayList list = new TArrayList(elements);
-		TListIterator listIterator = list.iterator();
+		LinkedList list = new LinkedList(elements);
+		ListIterator listIterator = list.iterator();
 		int iterator = 0;
 		boolean expected = true;
 		boolean actual = true;
@@ -41,28 +35,22 @@ public class ArrayTListIteratorTest {
 	}
 
 	@Test
-	public void hasPrev() throws Exception {
+	public void hasPrev() {
 		Object[] elements = {1,3,5};
-		TArrayList list = new TArrayList(elements);
-		TListIterator listIterator = list.iterator();
+		LinkedList list = new LinkedList(elements);
+		ListIterator listIterator = list.iterator();
 		int iterator = 2;
 		boolean expected = true;
 		boolean actual = true;
-		while (listIterator.hasPrev()){
-			Object currentActual = listIterator.prev();
-			Object currentExpected = elements[iterator--];
-			if (!currentActual.equals(currentExpected)){
-				actual = false;
-			}
-		}
+		actual = ArrayListIteratorTest.findPrev(elements, listIterator, iterator, actual);
 		assertTrue (expected == actual);
 	}
 
 	@Test
-	public void prev() throws Exception {
+	public void prev() {
 		Object[] elements = {1,3,5};
-		TArrayList list = new TArrayList(elements);
-		TListIterator listIterator = list.iterator();
+		LinkedList list = new LinkedList(elements);
+		ListIterator listIterator = list.iterator();
 		int iterator = 2;
 		boolean expected = true;
 		boolean actual = true;

@@ -1,37 +1,38 @@
 package list.impl;
 
 import list.ListInterface;
-import list.TListIterator;
+import list.ListIterator;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Objects;
 
 import static list.ListConstants.*;
 
-public class TArrayList implements ListInterface, Serializable{
+public class ArrayList implements ListInterface, Serializable{
 	private Object[] array;
 	private int position = 0;
 	private int size = 0;
 	private int capacity = 16;
-	private int CAPACITY = 16;
+	private final static int CAPACITY = 16;
 
-	public TArrayList(int capacity){
+	public ArrayList(int capacity){
 		array = new Object[capacity];
 		this.capacity = capacity;
 	}
 
-	public TArrayList(Object[] array){
+	public ArrayList(Object[] array){
 		this.array = array;
 		capacity = size = position = array.length;
 	}
 
-	public TArrayList(){
+	public ArrayList(){
 		array = new Object[CAPACITY];
 	}
 
 	@Override
-	public TListIterator iterator() {
-		return new ArrayTListIterator(this);
+	public ListIterator iterator() {
+		return new ArrayListIterator(this);
 	}
 
 	@Override
@@ -94,14 +95,14 @@ public class TArrayList implements ListInterface, Serializable{
 	}
 
 	@Override
-	public TArrayList subList(int begin, int end){
+	public ArrayList subList(int begin, int end){
 		if (begin < 0 || end > size || end < begin){
 			System.out.println(ELEMENT_NOT_FOUND);
 			return null;
 		}
 		Object[] newArray = new Object[end - begin + 1];
 		System.arraycopy(array,begin,newArray,0,end - begin + 1);
-		return new TArrayList(newArray);
+		return new ArrayList(newArray);
 	}
 
 	@Override
@@ -155,11 +156,19 @@ public class TArrayList implements ListInterface, Serializable{
 		if (this == listInterface) return true;
 		if (listInterface == null || getClass() != listInterface.getClass()) return false;
 
-		TArrayList list = (TArrayList) listInterface;
+		ArrayList list = (ArrayList) listInterface;
 
-		if (position != list.position) return false;
-		if (size != list.size) return false;
-		return Arrays.equals(array, list.array);
+		return position == list.position &&
+				size == list.size &&
+				capacity == list.capacity &&
+				Arrays.equals(array, list.array);
+	}
+
+	@Override
+	public int hashCode() {
+		int result = Objects.hash(position, size, capacity);
+		result = 31 * result + Arrays.hashCode(array);
+		return result;
 	}
 
 	@Override
@@ -172,11 +181,7 @@ public class TArrayList implements ListInterface, Serializable{
 	}
 
 	public void trimToSize(){
-		if (size == 0){
-			capacity = CAPACITY;
-		} else {
-			capacity = size;
-		}
+		capacity = size == 0 ? CAPACITY : size;
 	}
 
 	private void ensureCapacity(){
@@ -194,11 +199,11 @@ public class TArrayList implements ListInterface, Serializable{
 		size = array.length;
 	}
 
-	private class ArrayTListIterator implements TListIterator {
+	private class ArrayListIterator implements ListIterator {
 		private int current = 0;
-		private TArrayList list;
+		private ArrayList list;
 
-		ArrayTListIterator(TArrayList list) {
+		ArrayListIterator(ArrayList list) {
 			this.list = list;
 		}
 

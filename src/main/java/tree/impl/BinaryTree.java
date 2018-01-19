@@ -1,13 +1,14 @@
 package tree.impl;
 
 import list.ListInterface;
-import list.impl.TArrayList;
+import list.impl.ArrayList;
 import tree.TreeConstants;
 import tree.TreeInterface;
 
 import java.io.Serializable;
+import java.util.Objects;
 
-public class TBinaryTree implements TreeInterface, Serializable {
+public class BinaryTree implements TreeInterface, Serializable {
 	private Node rootNode;
 	private int size;
 
@@ -28,23 +29,35 @@ public class TBinaryTree implements TreeInterface, Serializable {
 			if (o == null || getClass() != o.getClass()) return false;
 
 			Node node = (Node) o;
-
+/*
 			if (value != null ? !value.equals(node.value) : node.value != null) return false;
 			if (left != null ? !left.equals(node.left) : node.left != null) return false;
 			return right != null ? right.equals(node.right) : node.right == null;
+
+*/
+			return Objects.equals(value, node.value) &&
+					Objects.equals(left, node.left) &&
+					Objects.equals(right, node.right);
 		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(value, left, right);
+		}
+
+
 	}
 
-	public TBinaryTree() {
+	public BinaryTree() {
 		rootNode = null;
 	}
 
-	public TBinaryTree(Comparable<Integer> value) {
+	public BinaryTree(Comparable<Integer> value) {
 		this();
 		add(value);
 	}
 
-	public TBinaryTree(Comparable [] values) {
+	public BinaryTree(Comparable [] values) {
 		this();
 		for (Comparable value : values) {
 			add(value);
@@ -110,13 +123,12 @@ public class TBinaryTree implements TreeInterface, Serializable {
 			return;
 		}
 
-		if (node.right == null) {
-			node = node.left;
-		} else {
+		if (node.right != null) {
 			Node min = getMinimum(node.right);
-			Node max = getMaximum(min);
-			min.left = node.left;
-			max.right = node.right;
+			node.value = min.value;
+			swapNodes(min, min.right);
+		} else {
+			swapNodes(node, node.left);
 		}
 		size--;
 	}
@@ -128,7 +140,7 @@ public class TBinaryTree implements TreeInterface, Serializable {
 	}
 
 	@Override
-	public TBinaryTree getChildTree(Comparable value) {
+	public BinaryTree getChildTree(Comparable value) {
 		Node node = searchChild(rootNode, value);
 
 		if (node == null) {
@@ -136,7 +148,7 @@ public class TBinaryTree implements TreeInterface, Serializable {
 			return null;
 		}
 
-		TBinaryTree childTree = new TBinaryTree();
+		BinaryTree childTree = new BinaryTree();
 		Node rootNode = childTree.createChildTree(node);
 		childTree.setRoot(rootNode);
 
@@ -145,7 +157,7 @@ public class TBinaryTree implements TreeInterface, Serializable {
 
 	@Override
 	public ListInterface toArrayInOrder() {
-		ListInterface result = new TArrayList(size);
+		ListInterface result = new ArrayList(size);
 		Node current = rootNode;
 		toArrayInOrder(current, result);
 		return result;
@@ -153,7 +165,7 @@ public class TBinaryTree implements TreeInterface, Serializable {
 
 	@Override
 	public ListInterface toArrayPreOrder() {
-		ListInterface result = new TArrayList(size);
+		ListInterface result = new ArrayList(size);
 		Node current = rootNode;
 		toArrayPreOrder(current, result);
 		return result;
@@ -161,7 +173,7 @@ public class TBinaryTree implements TreeInterface, Serializable {
 
 	@Override
 	public ListInterface toArrayPostOrder() {
-		ListInterface result = new TArrayList(size);
+		ListInterface result = new ArrayList(size);
 		Node current = rootNode;
 		toArrayPostOrder(current, result);
 		return result;
@@ -172,11 +184,10 @@ public class TBinaryTree implements TreeInterface, Serializable {
 		if (this == tree) return true;
 		if (tree == null || getClass() != tree.getClass()) return false;
 
-		TBinaryTree that = (TBinaryTree) tree;
+		BinaryTree that = (BinaryTree) tree;
 
-		if (size != that.size) return false;
-		if (size == 0) return true;
-		return rootNode.equals(that.rootNode);
+		return size == that.size &&
+				Objects.equals(rootNode, that.rootNode);
 	}
 
 	private void add(Node node, Comparable value) {
@@ -206,22 +217,42 @@ public class TBinaryTree implements TreeInterface, Serializable {
 		}
 		Node min = node.left;
 		while(min.left != null){
-			node = min;
 			min = min.left;
 		}
-		node.left = null;
 		return min;
 	}
 
-	private Node getMaximum(Node node) {
-		if (node.right == null){
-			return node;
+	private void swapNodes(Node node, Node otherNode) {
+		if (otherNode == null){
+			changeParentNode(node, rootNode);
+		} else {
+			node.value = otherNode.value;
+			node.left = otherNode.left;
+			node.right = otherNode.right;
 		}
-		Node max = node.right;
-		while(max.right != null){
-			max = max.right;
+	}
+
+	private void changeParentNode(Node node, Node parent) {
+
+		Comparable par = parent.value;
+		Comparable child = node.value;
+
+		if (parent.left != null && parent.left.equals(node)) {
+			parent.left = null;
+			return;
 		}
-		return max;
+
+		if (parent.right != null && parent.right.equals(node)) {
+			parent.right = null;
+			return;
+		}
+
+		int compareResult = par.compareTo(child);
+		if (compareResult > 0) {
+			changeParentNode(node, parent.left);
+		} else {
+			changeParentNode(node, parent.right);
+		}
 	}
 
 	private Node removeAll(Node node) {

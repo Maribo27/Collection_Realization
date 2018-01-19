@@ -2,7 +2,7 @@ package list;
 
 public interface ListInterface {
 
-	TListIterator iterator();
+	ListIterator iterator();
 
 	Object get(int index);
 

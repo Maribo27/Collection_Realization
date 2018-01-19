@@ -1,6 +1,6 @@
 package list;
 
-public interface TListIterator {
+public interface ListIterator {
 	boolean hasNext();
 	Object next();
 
